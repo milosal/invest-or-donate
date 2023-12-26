@@ -17,8 +17,14 @@ stocks = ["NVDA", "GOOGL", "AMZN", "MSFT"]
 
 for stock in stocks:
     current_ticker = yf.Ticker(stock)
-    print(current_ticker.history(period="1mo"))
-    data[stock] = []
+
+    dat = yf.download(current_ticker, start=START_DATE, end=START_DATE)
+    start_price = dat["Open"][0] if not dat.empty else None
+
+    dat = yf.download(current_ticker, start=END_DATE, end=END_DATE)
+    end_price = dat["Open"][0] if not dat.empty else None
+
+    data[stock] = [start_price, end_price]
 
 print(data)
 
